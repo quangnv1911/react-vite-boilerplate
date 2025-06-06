@@ -187,10 +187,21 @@ This project includes automated code quality checks:
 
 **Pre-commit hooks:**
 
+- Branch protection warning for main/master
 - TypeScript type checking
 - ESLint linting with auto-fix
 - Prettier code formatting
 - Only staged files are processed
+
+**Pre-push hooks:**
+
+- Prevents direct push to protected branches (main, master, develop)
+- Forces use of feature branches and pull requests
+
+**Prepare-commit-msg hooks:**
+
+- Automatically adds branch name to commit messages
+- Works with feature/, bugfix/, hotfix/, chore/ branch naming
 
 **Commit message validation:**
 
@@ -204,6 +215,25 @@ This project includes automated code quality checks:
 feat(auth): add login functionality
 fix(ui): resolve button styling issue
 docs: update README with setup instructions
+```
+
+**Branch Protection:**
+
+```bash
+# ❌ This will be blocked
+git checkout main
+git commit -m "fix: some changes"
+git push origin main
+
+# ✅ Recommended workflow
+git checkout -b feature/user-authentication
+git commit -m "feat(auth): add login functionality"
+git push origin feature/user-authentication
+# Then create Pull Request
+
+# 🚨 Emergency bypass (use sparingly)
+git push --no-verify origin main
+git commit --no-verify -m "hotfix: critical bug"
 ```
 
 **VS Code Integration:**
